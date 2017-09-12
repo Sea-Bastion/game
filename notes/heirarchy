@@ -1,0 +1,58 @@
+Hierarchy
+Game hierarchy
+
+Format:
+[child] : [parent]
+
+Abs Game object : object
+
+	abs Map object : Game Object
+	    abs Item Entity : Map Object
+	    	abs Weapon : Map Object
+    	        abs Projectile : Map Object
+		    	    Arrow : Projectile
+		    	    Sling : Projectile
+		    	    BlowDart : Projectile
+		    	    Gun : Projectile
+		    	    Harpoon : Projectile
+
+
+
+		        abs Swingable : Map Object
+			        Sword : Swingable
+			        Stick : Swingable
+			        Dagger : Swingable
+			        Scythe : Swingable
+
+
+			    abs Poker : Map Object
+                    Spear : Poker
+                    Lance : Poker
+                    Rapier : Poker
+                    Booper : Poker
+
+            abs Dropable : MapObject
+                BananaPeal : Dropable
+                Nails : Dropable
+
+        abs Npc : Map Object
+            CaveMan : Npc
+            SlingCaveMan : Npc
+            Roman : Npc
+            Barbarian : Npc
+            Knight : Npc
+            Fencer : Npc
+            Archer : Npc
+            Assassin : Npc
+            Gangster : Npc
+            Reaper : Npc
+            FisherMan : Npc
+
+
+        abs Drop : MapObject
+
+
+
+
+
+	abs Item : Game Object
