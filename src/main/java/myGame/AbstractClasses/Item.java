@@ -1,4 +1,4 @@
-package myGame.classes;
+package myGame.AbstractClasses;
 
 abstract public class Item extends GameObject{
 

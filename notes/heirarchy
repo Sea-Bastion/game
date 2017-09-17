@@ -20,7 +20,7 @@ Abs Game object : object
 
 		        abs Swingable : Map Object
 			        Sword : Swingable
-			        Stick : Swingable
+			        club : Swingable
 			        Dagger : Swingable
 			        Scythe : Swingable
 

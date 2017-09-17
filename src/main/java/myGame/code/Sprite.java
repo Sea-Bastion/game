@@ -1,31 +1,33 @@
-package myGame.classes;
+package myGame.code;
 
+import myGame.AbstractClasses.GameObject;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.stb.STBImage;
 import org.lwjgl.system.MemoryStack;
 
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.glGenBuffers;
 
 
-public class Sprite extends GameObject {
+class Sprite extends GameObject {
 
 	private int id;
 	IntBuffer height, width, channels;
 
-	public Sprite(String filename){
+	Sprite(String filename){
 
+		height = BufferUtils.createIntBuffer(1);
+		glGenBuffers(height);
 
-		try(MemoryStack stack = MemoryStack.stackPush()){
-			height = width = stack.callocInt(2);
-			channels = stack.callocInt(1);
-			glGenBuffers(height);
-			glGenBuffers(width);
-			glGenBuffers(channels);
-		}
+		width = BufferUtils.createIntBuffer(1);
+		glGenBuffers(width);
+
+		channels = BufferUtils.createIntBuffer(1);
+		glGenBuffers(channels);
 
 
 		ByteBuffer texture = null;
@@ -46,7 +48,7 @@ public class Sprite extends GameObject {
 
 	}
 
-	public void bind() {
+	void bind() {
 		glBindTexture(GL_TEXTURE_2D, id);
 	}
 

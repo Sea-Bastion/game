@@ -1,4 +1,4 @@
-package myGame.classes;
+package myGame.AbstractClasses;
 
 import org.joml.Vector2d;
 import java.nio.IntBuffer;
