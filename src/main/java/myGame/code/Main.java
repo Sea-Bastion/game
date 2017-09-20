@@ -2,9 +2,11 @@ package myGame.code;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.glGenBuffers;
 
 import org.joml.Vector2f;
+import org.joml.Vector2i;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -13,10 +15,18 @@ import org.lwjgl.system.MemoryStack;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
+/*
+Game
+
+written originally by Sebastian Cypert
+other writers: null
+ */
+
 public class Main extends myGame.AbstractClasses.GameObject {
 
 	long win;
 
+	//-----------------------Init-----------------------
 	private Main() {
 
 
@@ -45,34 +55,31 @@ public class Main extends myGame.AbstractClasses.GameObject {
 		glfwMakeContextCurrent(win);
 		GL.createCapabilities();
 
+		//enable constants
 		glEnable(GL_TEXTURE_2D);
 
-		Sprite Floor = new Sprite("./src/main/resources/FloorTile.png");
+		//test objects
+		Sprite Floor = new Sprite("./src/main/resources/sprites/background/FloorTile.png");
+		Shader litEntity = new Shader("entity", "lit");
+		SpriteBase base = new SpriteBase(Floor, new Vector2f(-0.5f, 0.5f), new Vector2f(0.5f, -0.5f), 0, litEntity);
+
+		//TODO make update on separate string
 
 		//keep window open
 		while (!glfwWindowShouldClose(win)) {
 
+			//keep window open
 			glfwPollEvents();
 
+			//clear screen
 			glClear(GL_COLOR_BUFFER_BIT);
 
-			/*
-			Floor.bind();
-			glBegin(GL_QUADS);
-				glTexCoord2f(0, 0);
-				glVertex2f(-0.5f, 0.5f);
+			//TODO make function that renders everything
 
-				glTexCoord2f(1, 0);
-				glVertex2f(0.5f, 0.5f);
+			//render image
+			base.render();
 
-				glTexCoord2f(1, 1);
-				glVertex2f(0.5f, -0.5f);
-
-				glTexCoord2f(0, 1);
-				glVertex2f(-0.5f, -0.5f);
-			glEnd();
-			*/
-
+			base.setPos(new Vector2i(100, 0));
 
 			//set swap buffers
 			glfwSwapBuffers(win);
@@ -83,10 +90,7 @@ public class Main extends myGame.AbstractClasses.GameObject {
 
 	}
 
-	public static void main(String args[]){
-		new Main();
-	}
-
+	//get window size
 	public Vector2f getSize(){
 		IntBuffer height, width;
 
@@ -102,14 +106,21 @@ public class Main extends myGame.AbstractClasses.GameObject {
 		return new Vector2f(width.get(), height.get());
 	}
 
-	FloatBuffer Arr2Bufff(float[] Array) {
+	//turn float array into float buffer
+	static FloatBuffer Arr2Bufff(float[] Array) {
 
-		FloatBuffer Buffer = BufferUtils.createFloatBuffer(Array.length);
-		Buffer.put(Array);
-		Buffer.flip();
+
+		FloatBuffer Buffer = BufferUtils.createFloatBuffer(Array.length);//init buffer
+		Buffer.put(Array);//put array in buffer
+		Buffer.flip(); // file buffer
+
 
 		return Buffer;
 
 	}
 
+	//run game
+	public static void main(String args[]){
+		new Main();
+	}
 }
