@@ -7,7 +7,9 @@ import static org.lwjgl.opengl.GL15.glGenBuffers;
 
 import org.joml.Vector2f;
 import org.joml.Vector2i;
+import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
+import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
@@ -45,9 +47,12 @@ public class Main extends myGame.AbstractClasses.GameObject {
 		}
 
 
-		//position window in center and show
+		//window config
 		GLFWVidMode videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-		glfwSetWindowPos(win, (videoMode.width()-640)/2, (videoMode.height()-640)/2);
+		glfwSetWindowPos(win, (videoMode.width()-640)/2, (videoMode.height()-480)/2);
+		glfwSetWindowAspectRatio(win, 4, 3);
+
+		//show window
 		glfwShowWindow(win);
 
 
@@ -59,9 +64,24 @@ public class Main extends myGame.AbstractClasses.GameObject {
 		glEnable(GL_TEXTURE_2D);
 
 		//test objects
-		Sprite Floor = new Sprite("./src/main/resources/sprites/background/FloorTile.png");
+		Sprite Floor = new Sprite(getClass().getClassLoader().getResource("sprites/background/FloorTile.png").getFile());
 		Shader litEntity = new Shader("entity", "lit");
-		SpriteBase base = new SpriteBase(Floor, new Vector2f(-0.5f, 0.5f), new Vector2f(0.5f, -0.5f), 0, litEntity);
+		SpriteBase base = new SpriteBase(win, Floor, new Vector2i(255, 255), new Vector3f(0, 0, 0), litEntity);
+
+		glfwSetKeyCallback(win, GLFWKeyCallback.create((window, key, scancode, action, mods) -> {
+			if(key == GLFW_KEY_W){
+				base.setPos(new Vector3f(0f,0.5f,0f));
+
+			}else if(key == GLFW_KEY_A){
+				base.setPos(new Vector3f(-0.5f,0f,0f));
+
+			}else if(key == GLFW_KEY_S){
+				base.setPos(new Vector3f(0f,-0.5f,0f));
+
+			}else if(key == GLFW_KEY_D){
+				base.setPos(new Vector3f(0.5f,0f,0f));
+			}
+		}));
 
 		//TODO make update on separate string
 
@@ -75,11 +95,11 @@ public class Main extends myGame.AbstractClasses.GameObject {
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			//TODO make function that renders everything
+			
 
 			//render image
 			base.render();
 
-			base.setPos(new Vector2i(100, 0));
 
 			//set swap buffers
 			glfwSwapBuffers(win);
@@ -91,7 +111,7 @@ public class Main extends myGame.AbstractClasses.GameObject {
 	}
 
 	//get window size
-	public Vector2f getSize(){
+	public Vector2f getSizep() {
 		IntBuffer height, width;
 
 		height = BufferUtils.createIntBuffer(3);

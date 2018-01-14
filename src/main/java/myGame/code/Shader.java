@@ -1,9 +1,13 @@
 package myGame.code;
 
+import org.joml.Matrix4f;
+import org.lwjgl.BufferUtils;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.FloatBuffer;
 
 import static org.lwjgl.opengl.GL20.*;
 
@@ -85,10 +89,36 @@ public class Shader {
 		int location = glGetUniformLocation(program, name);
 
 		//set location to value
-		if (location != -1) glUniform1i(location, Value);
+		glUniform1i(location, Value);
 
 		//if failed to get location send error
-		else throw new IllegalStateException("unable to get uniform value");
+		//else throw new IllegalStateException("unable to get uniform location");
+	}
+
+	void setUniform(String name, float Value){
+
+		//Init location
+		int location = glGetUniformLocation(program, name);
+
+		//set location to value
+		glUniform1f(location, Value);
+	}
+
+	void setUniform(String name, Matrix4f matrix) {
+
+		//Init location
+		int location = glGetUniformLocation(program, name);
+
+		//convert matrix
+		FloatBuffer buffer = BufferUtils.createFloatBuffer(16);
+		matrix.get(buffer);
+
+		//set value
+		glUniformMatrix4fv(location, false, buffer);
+
+		//check for errors
+		//else throw new IllegalStateException("unable to get uniform location");
+
 	}
 
 	//-----------------------read shader file-----------------------
